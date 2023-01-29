@@ -1,12 +1,9 @@
-const WRONG_EMAIL = "swonranson@noroff.no";
-const WRONG_PASSWORD = "celery2000";
-
-describe("Fail to log in", () => {
+describe("Login flow", () => {
   beforeEach(() => {
     cy.wait(500);
     cy.visit("/");
   });
-  it("Cannot log in without valid credentials", () => {
+  it("Does not allow access without valid credentials", () => {
     cy
       .get("#registerModal button")
       .contains("Login")
@@ -14,8 +11,12 @@ describe("Fail to log in", () => {
       .wait(500)
       .click()
       .wait(500),
-      cy.get(`input#loginEmail[name="email"]`).type(WRONG_EMAIL);
-    cy.get(`input#loginPassword[name="password"]`).type(WRONG_PASSWORD);
+      cy
+        .get(`input#loginEmail[name="email"]`)
+        .type(String(Cypress.env("WRONG_EMAIL")));
+    cy.get(`input#loginPassword[name="password"]`).type(
+      String(Cypress.env("WRONG_PASSWORD"))
+    );
     cy.get(`button[type="submit"]`).contains("Login").click();
     cy.on("window:alert", (str) => {
       expect(str).to.equal(
