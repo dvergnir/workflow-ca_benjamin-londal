@@ -24,6 +24,7 @@ describe("create", () => {
   it("creates a post if input requirements are met", async () => {
     global.fetch = jest.fn(() => postSuccessMock());
     const result = await createPost(TEST_TITLE, TEST_BODY, TEST_BODY, TEST_TAG);
+    expect(fetch).toHaveBeenCalled();
     expect(result.title).toEqual(TEST_TITLE);
     expect(result.body).toEqual(TEST_BODY);
     expect(result.media).toEqual(TEST_MEDIA);
